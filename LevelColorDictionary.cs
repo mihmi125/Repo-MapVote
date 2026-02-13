@@ -19,7 +19,8 @@ namespace MapVote
             { "Level - Garden", "#04A831" },
             { "Level - Facility", "#A3BA8C" },
             { "Level - Hospital", "#D53C35" },
-            { "Level - Backrooms", "#B7C13D" }
+            { "Level - Backrooms", "#B7C13D" }.
+            { "Level - DampMine", "#FA7902" }
         };
 
         public static string GetColor(string key) => _dictionary.TryGetValue(key, out var value) ? value : "#ffffff";
