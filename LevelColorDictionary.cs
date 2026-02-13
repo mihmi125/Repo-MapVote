@@ -15,7 +15,7 @@ namespace MapVote
             { "Level - Stronghold", "#A56695" },
             { "Level - Museum", "#915829" },
             { "Level - Bunker", "#D6C87E" },
-            { "Level - BP", "#508AE1" },
+            { "Level - MtHolly", "#508AE1" },
             { "Level - Garden", "#04A831" },
             { "Level - Facility", "#A3BA8C" },
             { "Level - Hospital", "#D53C35" },
