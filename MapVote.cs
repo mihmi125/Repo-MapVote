@@ -338,11 +338,9 @@ namespace MapVote {
                 }, parent);
 
                 var layoutGroup = btn.AddComponent<HorizontalLayoutGroup>();
-                layoutGroup.spacing = 235f;
-
-                var votesLabel = GameObject.Instantiate(btn.labelTMP.gameObject, btn.transform);
-                var lbl = votesLabel.GetComponent<TextMeshProUGUI>();
-                lbl.horizontalAlignment = HorizontalAlignmentOptions.Right;
+                layoutGroup.childControlWidth = false;
+                
+                btn.labelTMP.GetComponent<RectTransform>().sizeDelta = new Vector2(269.0f, 0f);
 
                 VoteOptionButtons.Add(new VoteOptionButton(VOTE_RANDOM_LABEL, 0, btn, true));
                 return btn.rectTransform;
@@ -369,11 +367,9 @@ namespace MapVote {
                     }
 
                     var layoutGroup = btn.AddComponent<HorizontalLayoutGroup>();
-                    layoutGroup.spacing = 235f;
-
-                    var votesLabel = GameObject.Instantiate(btn.labelTMP.gameObject, btn.transform);
-                    var lbl = votesLabel.GetComponent<TextMeshProUGUI>();
-                    lbl.horizontalAlignment = HorizontalAlignmentOptions.Right;
+                    layoutGroup.childControlWidth = false;
+                
+                    btn.labelTMP.GetComponent<RectTransform>().sizeDelta = new Vector2(269.0f, 0f);
 
                     VoteOptionButtons.Add(new VoteOptionButton(name, 0, btn));
                     return btn.rectTransform;

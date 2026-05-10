@@ -1,3 +1,8 @@
+# Version 1.1.2
+### Changes
+- Fixed voting menu layout
+- Updated dependencies to the latest versions
+
 # Version 1.1.1
 ### Changes
 - Added colored labels for some custom levels

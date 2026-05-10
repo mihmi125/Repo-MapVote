@@ -47,7 +47,7 @@ namespace MapVote
 
             if (_disabled) sb.Append("<s>");
 
-            sb.Append($"<mspace=0.25em>[{Utilities.ColorString((ownVote || _highlight ? "X" : " "), mainColor)}]</mspace>  ");
+            sb.Append($"<align=left><mspace=0.25em>[{Utilities.ColorString((ownVote || _highlight ? "X" : " "), mainColor)}]</mspace>  ");
             if(!_disabled) sb.Append($"<color={LevelColorDictionary.GetColor(Level)}>");
             sb.Append($"{(IsRandomButton ? MapVote.VOTE_RANDOM_LABEL : Utilities.RemoveLevelPrefix(Level))}");
             if (!_disabled)
@@ -57,8 +57,10 @@ namespace MapVote
 
             if (_disabled) sb.Append("</s>");
 
-            var votesLabel = Button.transform.GetChild(1);
-            votesLabel.GetComponent<TextMeshProUGUI>().text = $"{Utilities.ColorString(new string('I', votesCount), Color.green)}{Utilities.ColorString(new string('I', playerCount - votesCount), Color.white)}";
+            sb.Append("<line-height=0>\n");
+
+            sb.Append(
+                $"<align=right>{Utilities.ColorString(new string('I', votesCount), Color.green)}{Utilities.ColorString(new string('I', playerCount - votesCount), Color.white)}<line-height=1em>");
 
             Button.labelTMP.text =
                 $"{sb.ToString()}";
