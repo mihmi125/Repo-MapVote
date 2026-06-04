@@ -1,33 +1,25 @@
-﻿using Sirenix.Serialization.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
+﻿using ExitGames.Client.Photon;
+using HarmonyLib;
+using REPOLib.Modules;
 
-namespace MapVote
+namespace MapVote.Patches
 {
-    internal class CompatibilityPatches
+    [HarmonyPatch(typeof(MenuPageLobby))]
+    internal class SteamManagerPatch
     {
-        private static Dictionary<string, Action> Patches = new Dictionary<string, Action>();
-
-        public static void PopulatePatches()
+        [HarmonyPatch(nameof(MenuPageLobby.PlayerAdd))]
+        [HarmonyPostfix]
+        public static void PostfixJoiningPlayer()
         {
-            Patches.Add("ViViKo.StartInShop", () =>
+            if (SemiFunc.IsMasterClient())
             {
-                MapVote.HideInMenu.Value = true;
-            });
-        }
-
-        public static void RunPatches(List<string> pluginGUIDs)
-        {
-            PopulatePatches();
-
-            Patches.Where(x => pluginGUIDs.Contains(x.Key)).ForEach(plugin =>
-            {
-                plugin.Value();
-                MapVote.Logger.LogInfo($"Ran Compatibility Patch for {plugin.Key}");
-            });
+                MapVote.OnSyncVotes?.RaiseEvent(MapVote.CurrentVotes.Values, NetworkingEvents.RaiseAll, SendOptions.SendReliable);
+                MapVote.OnSyncLastMapPlayed?.RaiseEvent(MapVote.LastMapPlayed, NetworkingEvents.RaiseOthers, SendOptions.SendReliable);
+                if (MapVote.SelectedMaps.Count > 0)
+                {
+                    MapVote.OnSyncSelectedMaps?.RaiseEvent(MapVote.SelectedMaps.ToArray(), NetworkingEvents.RaiseOthers, SendOptions.SendReliable);
+                }
+            }
         }
     }
 }
