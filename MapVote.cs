@@ -46,6 +46,7 @@ namespace MapVote {
         public static NetworkedEvent? OnSyncVotes;
         public static NetworkedEvent? OnSyncLastMapPlayed;
         public static NetworkedEvent? OnStartCountdown;
+        public static NetworkedEvent? OnSyncSelectedMaps;
 
         // Configs
         public static ConfigEntry<int> VotingTime;
@@ -57,6 +58,7 @@ namespace MapVote {
         public static readonly List<VoteOptionButton> VoteOptionButtons = new();
         public static string? OwnVoteLevel;
         public static string? WonMap;
+        public static List<string> SelectedMaps = new();
 
         public static REPOPopupPage? VotePopup;
 
@@ -157,6 +159,7 @@ namespace MapVote {
             OnSyncVotes = new NetworkedEvent("OnSyncVotes", HandleOnSyncVotes);
             OnSyncLastMapPlayed = new NetworkedEvent("OnSyncLastMapPlayed", HandleOnSyncLastMapPlayed);
             OnStartCountdown = new NetworkedEvent("OnStartCountdown", HandleOnStartCountdown);
+            OnSyncSelectedMaps = new NetworkedEvent("OnSyncSelectedMaps", HandleOnSyncSelectedMaps);
 
             if(!HideInMenu.Value)
             {
@@ -176,6 +179,7 @@ namespace MapVote {
             CurrentVotes.Values.Clear();
             VoteOptionButtons.Clear();
             OwnVoteLevel = null;
+            SelectedMaps.Clear();
             UpdateButtonLabels();
         }
         private static void HandleOnSyncLastMapPlayed(EventData data)
@@ -218,6 +222,17 @@ namespace MapVote {
                 });
                 
                 UpdateButtonLabels();
+            }
+        }
+
+        private static void HandleOnSyncSelectedMaps(EventData data)
+        {
+            if (SemiFunc.IsMasterClient()) return;
+
+            string[] maps = (string[])data.CustomData;
+            if (maps != null)
+            {
+                SelectedMaps = new List<string>(maps);
             }
         }
 
@@ -304,6 +319,24 @@ namespace MapVote {
             }
         }
 
+        public static List<string> GetRandomMapSelection(List<Level> allLevels, int count)
+        {
+            var eligible = allLevels
+                .Where(l => l.name != TRUCK_LEVEL_NAME && l.name != SHOP_LEVEL_NAME)
+                .Where(l => !HasBeenLastPlayed(l.name))
+                .Select(l => l.name)
+                .ToList();
+
+            // Shuffle using Fisher-Yates
+            for (int i = eligible.Count - 1; i > 0; i--)
+            {
+                int j = UnityEngine.Random.RandomRangeInt(0, i + 1);
+                (eligible[i], eligible[j]) = (eligible[j], eligible[i]);
+            }
+
+            return eligible.Take(count).ToList();
+        }
+
         public static void CreateVotePopup(bool isInMenu = false)
         {
             MenuAPI.CloseAllPagesAddedOnTop();
@@ -323,7 +356,16 @@ namespace MapVote {
             VotePopup = MenuAPI.CreateREPOPopupPage("Next map", true, !isInMenu, 0f, isInMenu ? new Vector2(40f, 0f) : new Vector2(-100f,0f));
             var runManger = FindObjectOfType<RunManager>();
 
-            var levels = runManger.levels;
+            // Master client picks 3 random maps and syncs to all clients
+            if (SemiFunc.IsMasterClientOrSingleplayer() && SelectedMaps.Count == 0)
+            {
+                SelectedMaps = GetRandomMapSelection(runManger.levels, 3);
+                OnSyncSelectedMaps?.RaiseEvent(SelectedMaps.ToArray(), NetworkingEvents.RaiseOthers, SendOptions.SendReliable);
+            }
+
+            var levels = SelectedMaps.Count > 0
+                ? runManger.levels.Where(l => SelectedMaps.Contains(l.name)).ToList()
+                : runManger.levels;
 
             // Generate "Random" Vote Option
             VotePopup.AddElementToScrollView(parent =>

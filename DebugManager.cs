@@ -13,6 +13,14 @@ namespace MapVote
 
         private static void PopulateMockData()
         {
+            // Simulate master client picking 3 random maps
+            MapVote.SelectedMaps = new System.Collections.Generic.List<string>
+            {
+                "Level - Arctic",
+                "Level - Manor",
+                "Level - Wizard"
+            };
+
             MapVote.CurrentVotes[10] = "Level - Arctic";
             MapVote.CurrentVotes[11] = "Level - Manor";
             MapVote.CurrentVotes[12] = "Level - Wizard";
