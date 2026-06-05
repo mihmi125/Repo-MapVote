@@ -477,7 +477,7 @@ namespace MapVote {
         {
             var eligibleOptions = GetEligibleOptions();
 
-            int index = UnityEngine.Random.RandomRangeInt(0, eligibleOptions.Count);
+            int index = UnityEngine.Random.RandomRangeInt(0, eligibleOptions.Count - 1);
 
             return eligibleOptions[index].Level;
         }
