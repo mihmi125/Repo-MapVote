@@ -1,94 +1,93 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-      <TargetFramework>netstandard2.1</TargetFramework>
-      <LangVersion>11</LangVersion>
-      <Nullable>enable</Nullable>
-      <Authors>Patrick</Authors>
-      <Version>1.0.0</Version>
-      <Description>Mod to vote for a specific map in R.E.P.O.</Description>
-      <RepositoryUrl>https://github.com/pneben/Repo-MapVote</RepositoryUrl>
-	  <PackageProjectUrl>$(RepositoryUrl)</PackageProjectUrl>
-	  <AssemblyName>Patrick.$(MSBuildProjectName)</AssemblyName>
-	  <Product>$(MSBuildProjectName)</Product>
-	  <RootNamespace>$(MSBuildProjectName)</RootNamespace>
-	  <Version>1.1.2</Version>
-	  <EnableGameReferences>true</EnableGameReferences>
-	  <EnableUnityReferences>true</EnableUnityReferences>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <LangVersion>11</LangVersion>
+        <Nullable>enable</Nullable>
+        <Authors>mihmi125</Authors>
+        <Version>1.0.0</Version>
+        <Description>Fork of MapVote: Vote between 3 random maps in R.E.P.O.</Description>
+        <RepositoryUrl>https://github.com/mihmi125/Repo-MapVote</RepositoryUrl>
+        <PackageProjectUrl>$(RepositoryUrl)</PackageProjectUrl>
+        <AssemblyName>mihmi125.$(MSBuildProjectName)</AssemblyName>
+        <Product>$(MSBuildProjectName)</Product>
+        <RootNamespace>$(MSBuildProjectName)</RootNamespace>
+        <EnableGameReferences>true</EnableGameReferences>
+        <EnableUnityReferences>true</EnableUnityReferences>
+    </PropertyGroup>
 
-  <!-- Add Package Sources -->
-  <PropertyGroup>
-    <RestoreAdditionalProjectSources>
-      https://api.nuget.org/v3/index.json;
-      https://nuget.bepinex.dev/v3/index.json;
-      https://nuget.windows10ce.com/nuget/v3/index.json
-    </RestoreAdditionalProjectSources>
-  </PropertyGroup>
+    <PropertyGroup>
+        <RestoreAdditionalProjectSources>
+            https://api.nuget.org/v3/index.json;
+            https://nuget.bepinex.dev/v3/index.json;
+            https://nuget.windows10ce.com/nuget/v3/index.json
+        </RestoreAdditionalProjectSources>
+    </PropertyGroup>
 
-  <!-- Package References -->
-  <ItemGroup>
-    <PackageReference Include="BepInEx.Analyzers" Version="1.*" PrivateAssets="all" />
-    <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.1" PrivateAssets="all" IncludeAssets="build" />
-    <PackageReference Include="Linkoid.Repo.Plugin.Build" Version="*" PrivateAssets="all" />
-	<PackageReference Include="BepInEx.PluginInfoProps" Version="2.*" PrivateAssets="all" />
-	<PackageReference Include="BepInEx.Core" Version="5.*" ExcludeAssets="runtime" />
-    <PackageReference Include="UnityEngine.Modules" Version="2022.3.62" IncludeAssets="compile" PrivateAssets="all" />
-	<PackageReference Include="R.E.P.O.GameLibs.Steam" Version="*-*" PrivateAssets="all" Publicize="true" />
-  </ItemGroup>
-	
-  <ItemGroup>
-    <Folder Include="MapVote\" />
-  </ItemGroup>
-	
-  <ItemGroup>
-	  <None Update="icon.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Update="manifest.json">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Update="README.md">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Update="CHANGELOG.md">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="Assembly-CSharp-firstpass">
-      <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\REPO\REPO_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
-    </Reference>
-    <Reference Include="MenuLib">
-      <HintPath>..\..\AppData\Roaming\Thunderstore Mod Manager\DataFolder\REPO\profiles\ran\BepInEx\plugins\nickklmao-MenuLib\MenuLib.dll</HintPath>
-    </Reference>
-    <Reference Include="REPOLib">
-      <HintPath>..\..\AppData\Roaming\Thunderstore Mod Manager\DataFolder\REPO\profiles\ran\BepInEx\plugins\Zehs-REPOLib\REPOLib.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.UI.dll</HintPath>
-    </Reference>
-  </ItemGroup>
+    <!-- Package References -->
+    <ItemGroup>
+        <PackageReference Include="BepInEx.Analyzers" Version="1.*" PrivateAssets="all" />
+        <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.1" PrivateAssets="all" IncludeAssets="build" />
+        <PackageReference Include="Linkoid.Repo.Plugin.Build" Version="*" PrivateAssets="all" />
+        <PackageReference Include="BepInEx.PluginInfoProps" Version="2.*" PrivateAssets="all" />
+        <PackageReference Include="BepInEx.Core" Version="5.*" ExcludeAssets="runtime" />
+        <PackageReference Include="UnityEngine.Modules" Version="2022.3.62" IncludeAssets="compile" PrivateAssets="all" />
+        <PackageReference Include="R.E.P.O.GameLibs.Steam" Version="*-*" PrivateAssets="all" Publicize="true" />
+    </ItemGroup>
 
-	<Target Name="ZipOutput" AfterTargets="Build">
-		<PropertyGroup>
-			<OutputFolder>$(OutputPath)</OutputFolder>
-			<ZipFile>$(OutputFolder)MapVote.zip</ZipFile>
-			<TempZipFolder>$(OutputFolder)ZipTemp\</TempZipFolder>
-		</PropertyGroup>
+    <ItemGroup>
+        <Folder Include="MapVote\" />
+    </ItemGroup>
 
-		<RemoveDir Directories="$(TempZipFolder)" />
-		<MakeDir Directories="$(TempZipFolder)" />
-		
-		<Copy SourceFiles="$(OutputFolder)Patrick.MapVote.dll" DestinationFolder="$(TempZipFolder)" />
-		<Copy SourceFiles="$(OutputFolder)icon.png" DestinationFolder="$(TempZipFolder)" />
-		<Copy SourceFiles="$(OutputFolder)manifest.json" DestinationFolder="$(TempZipFolder)" />
-		<Copy SourceFiles="$(OutputFolder)README.md" DestinationFolder="$(TempZipFolder)" />
-		<Copy SourceFiles="$(OutputFolder)CHANGELOG.md" DestinationFolder="$(TempZipFolder)" />
+    <ItemGroup>
+        <None Update="icon.png">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="manifest.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="README.md">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="CHANGELOG.md">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+    <ItemGroup>
+        <Reference Include="Assembly-CSharp-firstpass">
+            <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\REPO\REPO_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
+        </Reference>
+        <Reference Include="MenuLib">
+            <HintPath>..\..\AppData\Roaming\Thunderstore Mod Manager\DataFolder\REPO\profiles\ran\BepInEx\plugins\nickklmao-MenuLib\MenuLib.dll</HintPath>
+        </Reference>
+        <Reference Include="REPOLib">
+            <HintPath>..\..\AppData\Roaming\Thunderstore Mod Manager\DataFolder\REPO\profiles\ran\BepInEx\plugins\Zehs-REPOLib\REPOLib.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.UI">
+            <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.UI.dll</HintPath>
+        </Reference>
+    </ItemGroup>
 
-		<Delete Files="$(ZipFile)" />
-		<ZipDirectory SourceDirectory="$(TempZipFolder)" DestinationFile="$(ZipFile)" />
-		
-		<RemoveDir Directories="$(TempZipFolder)" />
-	</Target>
+    <Target Name="ZipOutput" AfterTargets="Build">
+        <PropertyGroup>
+            <OutputFolder>$(OutputPath)</OutputFolder>
+            <ZipFile>$(OutputFolder)MapVote.zip</ZipFile>
+            <TempZipFolder>$(OutputFolder)ZipTemp\</TempZipFolder>
+        </PropertyGroup>
+
+        <RemoveDir Directories="$(TempZipFolder)" />
+        <MakeDir Directories="$(TempZipFolder)" />
+
+        <!-- Corrected Copy SourceFiles target to match AssemblyName -->
+        <Copy SourceFiles="$(OutputFolder)mihmi125.MapVote.dll" DestinationFolder="$(TempZipFolder)" />
+        <Copy SourceFiles="$(OutputFolder)icon.png" DestinationFolder="$(TempZipFolder)" />
+        <Copy SourceFiles="$(OutputFolder)manifest.json" DestinationFolder="$(TempZipFolder)" />
+        <Copy SourceFiles="$(OutputFolder)README.md" DestinationFolder="$(TempZipFolder)" />
+        <Copy SourceFiles="$(OutputFolder)CHANGELOG.md" DestinationFolder="$(TempZipFolder)" />
+
+        <Delete Files="$(ZipFile)" />
+        <ZipDirectory SourceDirectory="$(TempZipFolder)" DestinationFile="$(ZipFile)" />
+
+        <RemoveDir Directories="$(TempZipFolder)" />
+    </Target>
 </Project>

@@ -1,8 +1,8 @@
 {
-  "name": "MapVote",
-  "version_number": "1.1.2",
-  "website_url": "https://github.com/pneben/Repo-MapVote",
-  "description": "Allows you and your friends to vote for the next map to play!",
+  "name": "MapVote_Randomized",
+  "version_number": "1.0.0",
+  "website_url": "https://github.com/mihmi125/Repo-MapVote",
+  "description": "Fork of MapVote: Allows you and your friends to vote between 3 randomly selected maps for the next run!",
   "dependencies": [
     "BepInEx-BepInExPack-5.4.2305",
     "nickklmao-MenuLib-2.5.3",
